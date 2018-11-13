@@ -89,7 +89,7 @@ public:
             return false;
         }
         std::getline( input, str);
-        if( (!str.empty()) && str != "P6"){
+        if( (!str.empty()) && str == "P3"){
             std::getline( input, str );
             //if (( !str.empty() ) && (str[0]=='#')) std::cout << "C'est un commentaire ! J'ignore superbement" << std::endl;
 
@@ -110,11 +110,32 @@ public:
             }
             return true;
         }
-        else{
-            std::cout << "Pas de P6 : Mauvais encodage" << std::endl;
-            return false;
+        else if( (!str.empty()) && str == "P6") {
+            std::getline( input, str );
+            //if (( !str.empty() ) && (str[0]=='#')) std::cout << "C'est un commentaire ! J'ignore superbement" << std::endl;
+
+            std::getline(input, str);
+            std::istringstream istr(str);
+            int x,y;
+            istr >> x >> y;
+
+            std::getline(input, str);
+
+            input >> std::noskipws;
+            img = Image(x,y, Color(0,0,0));
+            int r,g,b;
+            for ( Image::Iterator it = img.begin(), itE = img.end(); it != itE; ++it ){
+                r=input.get();
+                g=input.get();
+                b=input.get();
+
+                *it = Color(r,g,b);
+            }
+            return true;
+        }else{
+        return false;
         }
-    }
+    };
 };
 
 #endif //TP2_IMAGE2DREADER_H
