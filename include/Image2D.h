@@ -17,10 +17,27 @@ public:
         typedef typename Accessor::Argument  ImageValue; // Color ou unsigned char
         typedef typename Accessor::Value     Value;      // unsigned char (pour ColorGreenAccessor)
         typedef typename Accessor::Reference Reference;  // ColorGreenReference (pour ColorGreenAccessor)
-        GenericConstIterator( const Image2D<ImageValue>& image, int x, int y );
+        GenericConstIterator( const Image2D<ImageValue>& image, int x, int y )
+                :Container::const_iterator( image.m_data.begin() + image.index(x,y))
+        {};
         // Accès en lecture (rvalue)
         Value operator*() const
         { return Accessor::access( Container::const_iterator::operator*() ); }
+    };
+
+    /// Un itérateur Constant avec les Accessor sur l'image
+    template <typename TAccessor>
+    struct GenericIterator : public Container::iterator {
+        typedef TAccessor Accessor;
+        typedef typename Accessor::Argument  ImageValue; // Color ou unsigned char
+        typedef typename Accessor::Value     Value;      // unsigned char (pour ColorGreenAccessor)
+        typedef typename Accessor::Reference Reference;  // ColorGreenReference (pour ColorGreenAccessor)
+        GenericIterator( const Image2D<ImageValue>& image, int x, int y )
+                :Container::iterator( image.m_data.begin() + image.index(x,y))
+        {};
+        // Accès en écriture (lvalue)
+        Reference operator*()
+        { return Accessor::access( Container::iterator::operator*() ); }
     };
 
     /// Un itérateur (constant) sur l'image
@@ -66,16 +83,29 @@ public:
 
     /// @return  un itérateur constant avec accessor pointant sur le pixel (x,y).
     template <typename Accessor>
+    GenericIterator< Accessor > start( int x = 0, int y = 0 )
+    { return GenericIterator< Accessor >( *this, x, y ); }
+    /// @return  un itérateur constant avec accessor pointant sur le début de l'image
+    template <typename Accessor>
+    GenericIterator< Accessor > begin( )
+    { return start<Accessor>( 0, 0 ); }
+    /// @return  un itérateur constant avec accessor pointant sur la fin de l'image
+    template <typename Accessor>
+    GenericIterator< Accessor > end( )
+    { return start <Accessor>( 0, h() ); }
+
+    /// @return  un itérateur constant avec accessor pointant sur le pixel (x,y).
+    template <typename Accessor>
     GenericConstIterator< Accessor > start( int x = 0, int y = 0 ) const
     { return GenericConstIterator< Accessor >( *this, x, y ); }
     /// @return  un itérateur constant avec accessor pointant sur le début de l'image
     template <typename Accessor>
     GenericConstIterator< Accessor > begin( ) const
-    { return start( 0, 0 ); }
+    { return start<Accessor>( 0, 0 ); }
     /// @return  un itérateur constant avec accessor pointant sur la fin de l'image
     template <typename Accessor>
     GenericConstIterator< Accessor > end( ) const
-    { return start( 0, h() ); }
+    { return start <Accessor>( 0, h() ); }
 
     /// @return un itérateur pointant sur le début de l'image
     Iterator begin() { return start( 0, 0 ); }

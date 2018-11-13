@@ -28,7 +28,7 @@ public:
         if (!ascii){
             output << "P5" << std::endl;
             output << "# Done by Quentin & Alexander"<< std::endl;
-            output << img.h()<<" "<< img.w()<< std::endl;
+            output << img.w()<<" "<< img.h()<< std::endl;
             output << 255<< std::endl;
             const Image& cimg = img;
             for ( Image::ConstIterator it = cimg.begin(), itE = cimg.end(); it != itE; ++it ){
