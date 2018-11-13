@@ -89,7 +89,7 @@ public:
             return false;
         }
         std::getline( input, str);
-        if( (!str.empty()) && str != "P6"){
+        if( (!str.empty()) && str == "P3"){
             std::getline( input, str );
             //if (( !str.empty() ) && (str[0]=='#')) std::cout << "C'est un commentaire ! J'ignore superbement" << std::endl;
 
@@ -111,7 +111,7 @@ public:
             return true;
         }
         else{
-            std::cout << "Pas de P6 : Mauvais encodage" << std::endl;
+            std::cout << "Mauvais encodage" << std::endl;
             return false;
         }
     }

@@ -3,7 +3,7 @@
 #include <fstream>
 #include "include/Image2D.h"
 #include "include/Color.h"
-#include "include/Image2DWritter.h"
+#include "include/Image2DWriter.h"
 
 int main()
 {

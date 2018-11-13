@@ -10,6 +10,19 @@ public:
     typedef TValue             Value;     // le type pour la valeur des pixels
     typedef std::vector<Value> Container; // le type pour stocker les valeurs des pixels de l'image.
 
+    /// Un itérateur Constant avec les Accessor sur l'image
+    template <typename TAccessor>
+    struct GenericConstIterator : public Container::const_iterator {
+        typedef TAccessor Accessor;
+        typedef typename Accessor::Argument  ImageValue; // Color ou unsigned char
+        typedef typename Accessor::Value     Value;      // unsigned char (pour ColorGreenAccessor)
+        typedef typename Accessor::Reference Reference;  // ColorGreenReference (pour ColorGreenAccessor)
+        GenericConstIterator( const Image2D<ImageValue>& image, int x, int y );
+        // Accès en lecture (rvalue)
+        Value operator*() const
+        { return Accessor::access( Container::const_iterator::operator*() ); }
+    };
+
     /// Un itérateur (constant) sur l'image
     struct ConstIterator : public Container::const_iterator {
         ConstIterator( const Self & image, int x, int y )
@@ -50,6 +63,19 @@ public:
     Value& at( int i, int j ){
             return m_data[index(i,j)];
     }
+
+    /// @return  un itérateur constant avec accessor pointant sur le pixel (x,y).
+    template <typename Accessor>
+    GenericConstIterator< Accessor > start( int x = 0, int y = 0 ) const
+    { return GenericConstIterator< Accessor >( *this, x, y ); }
+    /// @return  un itérateur constant avec accessor pointant sur le début de l'image
+    template <typename Accessor>
+    GenericConstIterator< Accessor > begin( ) const
+    { return start( 0, 0 ); }
+    /// @return  un itérateur constant avec accessor pointant sur la fin de l'image
+    template <typename Accessor>
+    GenericConstIterator< Accessor > end( ) const
+    { return start( 0, h() ); }
 
     /// @return un itérateur pointant sur le début de l'image
     Iterator begin() { return start( 0, 0 ); }
