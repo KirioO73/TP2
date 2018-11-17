@@ -62,8 +62,46 @@ struct Color {
        français) en une couleur RGB.
     */
     void setHSV( int h, float s, float v )
-    {}
+    {
+        int t = (h/60)%6;
+        int f = h/60 - t;
+        float l = v *(1 - s);
+        float m = v * (1 - f*s);
+        float n = v * (1 - (1 -f) * s);
+        switch(t){
+            case 0:
+                //*this = Color(v,n,l);
+                this->red = (Byte) v;
+                this->green = (Byte) n;
+                this->blue = (Byte) l;
+                break;
+            case 1:
+                this->red = (Byte) m;
+                this->green = (Byte) v;
+                this->blue = (Byte) l;
+                break;
+            case 2:
+                this->red = (Byte) l;
+                this->green = (Byte) v;
+                this->blue = (Byte) n;
+                break;
+            case 3:
+                this->red = (Byte) l;
+                this->green = (Byte) m;
+                this->blue = (Byte) v;
+                break;
+            case 4:
+                this->red = (Byte) n;
+                this->green = (Byte) l;
+                this->blue = (Byte) v;
+                break;
+            case 5:
+                this->red = (Byte) v;
+                this->green = (Byte) l;
+                this->blue = (Byte) m;
+                break;
+        }
+    }
 };
-
 
 #endif //TP2_COLOR_H
