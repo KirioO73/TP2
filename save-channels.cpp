@@ -18,16 +18,19 @@ int main( int argc, char** argv )
         std::cerr << "Usage: save-green-channel <input.ppm>" << std::endl;
         return 0;
     }
-    ColorImage2D img;
+    ColorImage2D imgL;
     char * imgName = argv[1];
     std::ifstream input( imgName ); // récupère le 1er argument.
-    bool ok = ColorImage2DReader::read( img, input );
+    bool ok = ColorImage2DReader::read( imgL, input );
     if ( !ok )
     {
         std::cerr << "Error reading input file." << std::endl;
         return 1;
     }
     input.close();
+
+    ColorImage2D const img = imgL;
+
     typedef Image2D<unsigned char> GrayLevelImage2D;
     typedef Image2DWriter<unsigned char> GrayLevelImage2DWriter;
     typedef GrayLevelImage2D::Iterator GrayLevelIterator;

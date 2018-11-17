@@ -24,6 +24,7 @@ int main( int argc, char** argv ) {
         cerr << "Error reading the file" << endl; return 1;
     }
 
+
     typedef ColorImage2D::GenericIterator< ColorRedAccessor >   ColorRedConstIterator;
     typedef ColorImage2D::GenericIterator< ColorGreenAccessor > ColorGreenConstIterator;
     typedef ColorImage2D::GenericIterator< ColorBlueAccessor >  ColorBlueConstIterator;

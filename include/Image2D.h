@@ -32,7 +32,7 @@ public:
         typedef typename Accessor::Argument  ImageValue; // Color ou unsigned char
         typedef typename Accessor::Value     Value;      // unsigned char (pour ColorGreenAccessor)
         typedef typename Accessor::Reference Reference;  // ColorGreenReference (pour ColorGreenAccessor)
-        GenericIterator( const Image2D<ImageValue>& image, int x, int y )
+        GenericIterator( Image2D<ImageValue>& image, int x, int y )
                 :Container::iterator( image.m_data.begin() + image.index(x,y))
         {};
         // Accès en écriture (lvalue)
