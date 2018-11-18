@@ -17,9 +17,9 @@ int main( int argc, char** argv )
         std::cerr << "Usage: save-green-channel <input.ppm> <output.pgm>" << std::endl;
         return 0;
     }
-    ColorImage2D img;
+    ColorImage2D imgL;
     std::ifstream input( argv[1] ); // récupère le 1er argument.
-    bool ok = ColorImage2DReader::read( img, input );
+    bool ok = ColorImage2DReader::read( imgL, input );
     if ( !ok )
     {
         std::cerr << "Error reading input file." << std::endl;
@@ -29,8 +29,9 @@ int main( int argc, char** argv )
     typedef Image2D<unsigned char> GrayLevelImage2D;
     typedef Image2DWriter<unsigned char> GrayLevelImage2DWriter;
     typedef GrayLevelImage2D::Iterator GrayLevelIterator;
-    GrayLevelImage2D img2( img.w(), img.h() );
+    GrayLevelImage2D img2( imgL.w(), imgL.h() );
 
+    ColorImage2D const img = imgL;
     //-----------------------------------------------------------------------------
     // vvvvvvvvv Toute la transformation couleur -> canal vert est ici vvvvvvvvvvvv
     //
